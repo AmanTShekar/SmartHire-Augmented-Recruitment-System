@@ -1,3 +1,8 @@
+---
+
+<!-- SEO & SEARCH OPTIMIZATION -->
+<!-- Keywords: AI Recruitment, Autonomous Hiring, Machine Learning, NLP, MediaPipe, Sentence-Transformers, FastAPI, React, Recruitment Automation, Bias-free Hiring -->
+
 <div align="center">
   <img src="docs/assets/cover.png" alt="SmartHire Banner" width="100%">
   
@@ -8,7 +13,7 @@
     <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version">
     <img src="https://img.shields.io/badge/License-PolyForm%20Noncommercial-blueviolet.svg" alt="License">
     <img src="https://img.shields.io/badge/Stack-FastAPI%20%7C%20React%20%7C%20AI-orange" alt="Stack">
-    <img src="https://img.shields.io/badge/AI-MediaPipe%20%7C%20Whisper%20%7C%20L8%20CoT-red" alt="AI">
+    <img src="https://img.shields.io/badge/AI-MediaPipe%20%7C%20Whisper%20%7C%20SBERT-red" alt="AI">
   </p>
 
   <p align="center">
@@ -27,13 +32,13 @@
 Evaluates candidates purely as anonymous skill vectors. All Personally Identifiable Information (PII) is stripped at ingestion to ensure a 100% merit-based evaluation process.
 
 ### 2. 🧠 Deep Reasoning Engine
-Powered by **L8 Chain-of-Thought (CoT)** analysis, our engine evaluates candidate responses by tracing their logic, not just checking for keywords. It understands context, complexity, and problem-solving depth.
+Powered by **DeepSeek-R1** and **L8 Chain-of-Thought (CoT)**, our engine evaluates candidate responses by tracing their logic, not just checking for keywords. It understands context, complexity, and problem-solving depth.
 
 ### 3. 👁️ Sentinel System (Biometric Analysis)
 Leveraging **MediaPipe**, Sentinel tracks 468 facial landmarks at 60Hz during interviews to measure genuine engagement, cognitive load, and authenticity, ensuring an objective assessment of soft skills.
 
 ### 4. 🧬 Resonance Engine (Semantic Matching)
-High-dimensional vector embeddings (**BGE-M3**) create a 'resonance' between candidate profiles and job requirements, discovering non-obvious fit patterns that human recruiters often miss.
+Utilizing **Sentence-Transformers (SBERT)**, the Resonance Engine creates 1536-dimensional vector embeddings of resumes and job descriptions. Unlike traditional ATS, it understands the *semantic relationship* between skills (e.g., knowing that 'FastAPI' and 'Web Frameworks' are related), leading to unprecedented matching accuracy.
 
 ---
 
@@ -43,68 +48,71 @@ High-dimensional vector embeddings (**BGE-M3**) create a 'resonance' between can
 - 💻 **Technical Assessment**: Real-time coding challenges with deep logic evaluation.
 - 🎤 **Audio/Video Intelligence**: Seamless transcription (Faster-Whisper) and behavioral analysis.
 - 📊 **Insight Dashboard**: Real-time hiring metrics, bias detection reports, and quality-of-hire predictions.
-- ⚡ **Neural Architecture**: Sharded interview processing for infinite horizontal scalability.
+- ⚡ **Neural Architecture**: Sharded interview processing for infinite horizontal scalability using Docker.
 
 ---
 
 ## 🏗️ Technical Stack
 
-| Component | Technology |
-| :--- | :--- |
-| **Backend** | [FastAPI](https://fastapi.tiangolo.com/), [PostgreSQL](https://www.postgresql.org/), [Redis](https://redis.io/) |
-| **Frontend** | [React](https://reactjs.org/) + [Vite](https://vitejs.dev/), [Tailwind CSS](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/) |
-| **AI/ML** | [MediaPipe](https://mediapipe.dev/), [Faster-Whisper](https://github.com/guillaumekln/faster-whisper), [Sentence-Transformers](https://www.sbert.net/) |
-| **Processing** | [Celery](https://docs.celeryq.dev/en/stable/) + [RabbitMQ/Redis](https://redis.io/) |
-| **Ops** | [Docker](https://www.docker.com/), [Docker Compose](https://docs.docker.com/compose/) |
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Backend** | [FastAPI](https://fastapi.tiangolo.com/) | High-performance Asynchronous API |
+| **Frontend** | [React](https://reactjs.org/) + [Vite](https://vitejs.dev/) | Sleek 'Void Black' Aesthetic UI |
+| **Semantic AI** | [Sentence-Transformers](https://www.sbert.net/) | Resume-Job Semantic Alignment |
+| **Computer Vision** | [MediaPipe](https://mediapipe.dev/) | Sentinel Biometric Tracking |
+| **Speech** | [Faster-Whisper](https://github.com/guillaumekln/faster-whisper) | Low-latency Audio Transcription |
+| **Ops** | [Docker](https://www.docker.com/) | Containerized Microservices & Scaling |
 
 ---
 
 ## 🚦 Getting Started
 
-### 📦 Quick Start with Docker
-The fastest way to get SmartHire running is via Docker Compose. This will orchestrate the database, redis, AI workers, and the frontend.
+### 🐳 Quick Start with Docker
+Docker is the recommended way to run SmartHire. It ensures all dependencies for AI libraries (like Sentence-Transformers and MediaPipe) are correctly configured.
 
 ```bash
 # Clone the repository
 git clone https://github.com/AmanTShekar/SmartHire-Augmented-Recruitment-System.git
 cd SmartHire
 
-# Build and start all services
+# Build and start all services (Backend, Frontend, DB, Redis, Ollama)
 docker-compose up --build
 ```
+*Note: The first build will take a few minutes as it compiles AI dependencies.*
 
 ### 🧠 AI Model Setup
-Since AI models are large (>500MB), they are not included in this repository. You must download them after setting up the environment:
+Since AI models are large (>500MB), they are not included in the repository. Run these scripts to populate your `backend/models` folder:
 
-#### **Automated Download**
 1. **Voice Models** (Kokoro, Moonshine):
    ```bash
-   cd backend
-   python app/scripts/download_voice_models.py
+   docker-compose exec backend python app/scripts/download_voice_models.py
    ```
 2. **LLM Models** (Ollama):
    ```bash
-   # Ensure Ollama is running (or via Docker)
-   python backend/app/scripts/pull_models.py
+   docker-compose exec backend python app/scripts/pull_models.py
    ```
-
-### 🔨 Manual Setup
-
-#### **Backend**
-1. Navigate to `backend/`
-2. Create virtual environment: `python -m venv venv`
-3. Install dependencies: `pip install -r requirements.txt`
-4. Run: `python app/scripts/download_voice_models.py`
-5. Start: `uvicorn app.main:app --reload`
-
-#### **Frontend**
-1. Navigate to `frontend/`
-2. Install dependencies: `npm install`
-3. Start dev server: `npm run dev`
 
 ---
 
-## 🗺️ Roadmap 2026
+## 🎯 Search & Optimization (SEO)
+To find this project easily:
+- `AI Recruitment System`
+- `Autonomous Hiring Platform`
+- `Sentence Transformers Resume Matcher`
+- `MediaPipe Interview Analysis`
+- `Bias-free AI Hiring`
+
+---
+
+## 📄 License
+This project is licensed under the **PolyForm Noncommercial License 1.0.0**.
+
+---
+
+<div align="center">
+  <p>Built with ❤️ by the SmartHire Team</p>
+  <p><i>"Defining the next era of autonomous recruitment."</i></p>
+</div>
 
 - [x] **Q1: Foundation** - Core bias-free screening & Sentinel v1.
 - [ ] **Q2: Intelligence** - DeepSeek-R1 Integration & Multi-language support.
