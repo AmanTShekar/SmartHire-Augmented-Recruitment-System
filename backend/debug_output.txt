@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/app/debug_tts.py", line 33, in <module>
+    tts = Kokoro(model_path, voices_path)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/kokoro_onnx/__init__.py", line 52, in __init__
+    self.voices: np.ndarray = np.load(voices_path)
+                              ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/numpy/lib/_npyio_impl.py", line 489, in load
+    raise ValueError(
+ValueError: This file contains pickled (object) data. If you trust the file you can load it unsafely using the `allow_pickle=` keyword argument or `pickle.load()`.
+Checking app/models/kokoro-v0_19.onnx...
+✔ ONNX Runtime loaded model successfully.
+Checking app/models/voices.json...
+✔ JSON loaded voices successfully.
+Attempting Kokoro init...
+✘ Kokoro initialization failed: This file contains pickled (object) data. If you trust the file you can load it unsafely using the `allow_pickle=` keyword argument or `pickle.load()`.
